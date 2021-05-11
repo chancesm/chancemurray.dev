@@ -8,7 +8,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/src/pages`,
-        name: 'page',
+        name: 'pages',
       },
     },
     // Posts
@@ -16,19 +16,21 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/src/posts`,
-        name: 'post',
+        name: 'posts',
+      },
+    },
+    // Projects
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/src/projects`,
+        name: 'projects',
       },
     },
     // MDX
     `gatsby-plugin-mdx`,
+
     // Style Stuff
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/src/tips`,
-        name: 'tip',
-      },
-    },
     `gatsby-plugin-emotion`,
     {
       resolve: `gatsby-plugin-typography`,
