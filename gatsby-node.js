@@ -7,7 +7,7 @@ async function makePostsFromMdx({ graphql, actions }) {
     `
       {
         allMdx(
-          filter: { fields: { collection: { in: ["posts", "projects"] } } }
+          filter: { fields: { collection: { in: ["blog", "projects"] } } }
           sort: { fields: [frontmatter___date], order: DESC }
         ) {
           edges {

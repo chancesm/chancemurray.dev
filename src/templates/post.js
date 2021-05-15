@@ -1,8 +1,22 @@
 import React from 'react';
-import { Link, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
+import Layout from "../components/layout"
 
-export const pageQuery = graphql`
+function PostTemplate({ data: { mdx: post }, scope, pageContext }) {
+  if (!post) {
+    return <p>No Post Found? This should be a 404</p>;
+  }
+
+  return (
+    <Layout>
+      <MDXRenderer>
+        {post.body}
+      </MDXRenderer>
+    </Layout>
+  );
+}
+export const query = graphql`
   query($slug: String!) {
     mdx(fields: { slug: { eq: $slug } }) {
       id
@@ -17,18 +31,5 @@ export const pageQuery = graphql`
     }
   }
 `;
-function PostTemplate({ data: { mdx: post }, scope, pageContext }) {
-  if (!post) {
-    return <p>No Post Found? This should be a 404</p>;
-  }
-
-  return (
-    <>
-      <MDXRenderer>
-        {post.body}
-      </MDXRenderer>
-    </>
-  );
-}
 
 export default PostTemplate;

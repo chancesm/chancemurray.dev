@@ -16,7 +16,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/src/posts`,
-        name: 'posts',
+        name: 'blog',
       },
     },
     // Projects
@@ -31,7 +31,7 @@ module.exports = {
     `gatsby-plugin-mdx`,
 
     // Style Stuff
-    `gatsby-plugin-emotion`,
+    `gatsby-plugin-sass`,
     {
       resolve: `gatsby-plugin-typography`,
       options: {
