@@ -1,0 +1,193 @@
+---
+title: Setting up a basic ExpressJS App with NodeJS
+published: true
+tags: Tutorials,ExpressJS,JavaScript,NodeJS
+date: 2018-02-13
+slug: basic-express-node-tutorial
+---
+
+## Introduction
+
+If you want to get started with NodeJS web apps, here’s a great place to start. We will build a basic app that displays Quotes on a page. This tutorial covers the following steps:
+
+- Setting up a NodeJS project
+- Creating a web server with express
+- Using the EJS template engine library
+- Sending external data to our templates with Express Middleware
+
+* * *
+
+## Setup
+
+For this tutorial, I will assume you have NodeJS and NPM installed on your development environment. If you don’t have either of those things installed, I recommend the following links depending on your operating system:
+
+- Windows
+  - http://lmgtfy.com/?q=Install+NodeJS+and+NPM+on+Windows
+- Linux (Ubuntu) and Mac OS X
+  - http://nodesource.com/blog/installing-node-js-tutorial-using-nvm-on-mac-os-x-and-ubuntu/
+
+For this tutorial I will be using Node version 8.9.4 and NPM version 5.6.0.
+
+If you have Node and NPM installed, running the following commands in your terminal will check the versions:
+
+- NODE VERSION:
+  - `node -v`
+- NPM VERSION:
+  - `npm -v`
+
+Lastly, you should have a good code editor ready. I use Visual Studio Code. It is a great editor, with a built-in file manager and an integrated terminal. You can download it from [this site](https://code.visualstudio.com).
+
+Now that you are set up, it is time to start coding!
+
+* * *
+
+## Video (for all of you non-readers out there)
+https://youtu.be/kIAxZq1rew0
+
+
+## 
+
+* * *
+
+## Walk-through
+
+### Creating A Node Project
+
+Start by creating a directory you would like to work out of. Mine is ~/myapp. Using your terminal, move into this directory and run the following command:`npm init -y`.
+
+This should have created a package.json file in your directory. Create a file that matches the “main” key in you package.json file. My file is index.js. Now that we have the project ready, we can move on.
+
+### Installing Dependencies
+
+For the app we will be using Express as our web server so we need to install the Express module using npm. From your project directory open a terminal and run the command `npm i -s express ejs`. You should now have a node\_modules directory. Express and the EJS template engine were installed in that directory.
+
+### Creating your Express App
+
+You need to pull express from the node\_modules folder and use it in your index.js file. to do this, add the following lines to the top of index.js:  
+`var express = require('express')
+var app = express()
+`  
+This creates an app using express that we will add functionality to in the next steps.
+
+In order to run the express app, you need to add the following line to the bottom of your index.js file:  
+`app.listen(3000)`  
+This runs your server at `http://localhost:3000`.  
+Keep this line at the bottom of your index.js file. Whenever we add more code to the page, we will add it above this line.
+
+### Serving Static Files
+
+We need a folder that we can serve our static files (css, images, javascript, etc.) from.
+
+Create a folder called ‘public’ in your directory. This will hold our static files.
+
+Add the following line to your index.js file:  
+`app.use(express.static('public'))`
+
+Whe a static resource is requested, your app will now look in the public folder. as a note, the app does nnot consider the name of the public foldder in the request. For example, f the page looks for `js/test.js`, you app will look for it in `public/js/test/js`.
+
+### Adding Routes
+
+Our first route will handle a simple GET request to our base route ‘/’. This means that any GET request sent specifically to `http://localhost:3000` will be handled by this route. This is where we will eventually have the logic for our main page.
+
+To get started, add the following lines to your index.js file:  
+```js
+app.get('/', function (req, res) {
+res.send('HELLO WORLD')
+})
+```
+
+You can test to see if this works by opening a terminal in your directory and running `node index.js`. Once you have done that, you can navigate to ‘http://localhost:3000’in your browser and you should see your content.
+
+### Creating a View Template with EJS
+
+This takes a few steps. First, create a ‘views’ folder in your app directory. Next, create a file in your ‘views’ directory called ‘index.ejs’. Put the following content in that file:  
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Quotes</title>
+  <style>
+    .quote{
+      border: 2px solid black;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quotes:</h1>
+  <div class="quote">
+    <p><QUOTE GOES HERE></p>
+    <p>~ <AUTHOR GOES HERE%></p>
+  </div>
+</body>
+</html>
+```
+
+Next, you have to tell the app to render this file when the ‘/’ route is requested.
+
+To do this, you first need to add the following two lines to your ‘index.js’ file before your route, and after you declare ‘app’:  
+```js
+app.set('views', 'views');
+app.set('view engine', 'ejs');
+```
+
+Last, you need to tell the app to render the file by replacing  `res.send('HELLO WORLD')` in your route with the following line:  
+`res.render('index')`
+
+If you run your server, it should show you your template file with an example quote.
+
+We are ready for the final step.
+
+### Sending Data to the View
+
+To accomplish this step, we are going to need to do some setup. First, we will need to create a folder called ‘controllers’ that will contain all of our data-handling files and functions. Net, we will create a file called ‘quotes.js’ in our controllers folder. In that file, we will add some dummy data:  
+```js
+var data = [
+  {
+    author: "Chance",
+    quote: "Cliche web tutorials are lame."
+  },
+  {
+    author: "Yoda",
+    quote: "Do, or do not. There is no 'try'"
+  },
+  {
+    author: "Ben Franklin",
+    quote: "A penny saved is a penny earned."
+  },
+  {
+    author: "Dr. Seuss",
+    quote: "Don't cry because it's over, smile becuse it happened."
+  }
+]
+```
+Next, we will export a function that our app can use to get this data:  
+`exports.getData = function() {
+return {
+quotes: data
+}
+}`  
+In ‘index.js’, we need to require the controller. to do this, add the line `var Quotes = require('./controllers/quotes');` before your route.  
+Now that we have the data, we need to send it to our view. Replace `res.render('index')` in our route with:  
+`res.render('index', Quotes.getData())`  
+The view now has the data. Replacing the example div with the following code will allow the view to loop through the data and print it to the page:  
+```ejs
+<% for (quote of quotes) { %>
+<div class="quote">
+<p><%=quote.quote%></p>
+<p>~ <%=quote.author%></p>
+</div>
+<%}%>
+```
+
+
+* * *
+
+## Conclusion
+
+We did it! Hopefully this tutorial was able to help you with some of the basics of Express, EJS, and NodeJS.
+
+Thank you for taking the time to read through my first tutorial!

@@ -1,7 +1,7 @@
 import React from "react"
-import { graphql, Link } from "gatsby"
+import { graphql } from "gatsby"
 import Layout from "../components/layout"
-import format from "date-fns/format"
+import ClickableCard from "../components/clickable-card"
 
 export default function Blog({ data }) {
   console.log({ data })
@@ -12,17 +12,7 @@ export default function Blog({ data }) {
         {data.allMdx &&
           data.allMdx.edges.map(function ({ node: post }) {
             return (
-              <div key={post.id}>
-                <div className="postMeta">
-                  {format(new Date(post.frontmatter.date), "MMMM d, yyyy")}
-                </div>
-                <div>
-                  <h3>
-                    <Link to={post.fields.slug}>{post.frontmatter.title}</Link>
-                  </h3>
-                  <p>{post.excerpt}</p>
-                </div>
-              </div>
+              <ClickableCard mdxData={post} />
             )
           })}
       </p>

@@ -1,0 +1,41 @@
+---
+title: Running NodeJS Forever!
+published: true
+tags: Tutorials,ExpressJS,NodeJS
+slug: running-nodejs-forever
+date: 2018-03-08
+---
+
+# Introduction
+
+NodeJS is a great tool for web development, but it has it’s hang-ups. When setting up an Express Server with NodeJS, many restarts are required and expected during the development stage. Not only that, but it would be great to keep a NodeJS project running indefinitely once you close your terminal session. This tutorial aims to address both of those issues. This tutorial will start by addressing the desire to keep a nodeJS process running and will then address reloading the process when changes are made. I will do this by addressing different tools used to accomplish these tasks and will end with my preferred option. Let’s begin.
+
+NOTE: THIS IS COPIED FROM A WORDPRESS BLOG AND THEREFORE SOME STYLES AND TEXT DID NOT TRANSFER OVER PROPERLY
+
+* * *
+
+# Video (for all of you non-readers out there)
+
+https://youtu.be/7fpSFwwNqYA
+
+* * *
+
+# The Options:
+
+## Tmux/Screen (Okay Option)
+
+Tmux and Screen are terminal multiplexers that allow you to create “sessions” that can persist after you close your terminal. They create their own sockets that a terminal instance runs in. A user can then access this through their tool’s commands. Once inside one of these sessions, running a command with node and then leaving the session will not end the node process because the terminal session is still open. I won’t go into detail here, but if you watch the video, I will show how to do this with tmux.
+
+## Nodemon (Better Option)
+
+One of the issues with the above method is that you still need  to stop and restart the node process every time you make a change to the server. One work-around for this is to install nodemon, a nodejs wrapper that watches the files in the directory it is run it and restarts. Nodemon is a node module and can be installed with npm. Combining nodemon with tmux or screen will allow you to run a node server that restarts whenever a change occurs. There is an easier way.
+
+## PM2 (Best Option)
+
+PM2 is a Process Manager for NodeJS. Like nodemon, it is also installed globally through npm. Unlike nodemon, pm2 actually creates a system process independent of any terminal instance to run your node process in. The video shows how to set it up after installing so I won’t discuss it here. [They have some great documentation at their site.](http://pm2.keymetrics.io/docs/usage/quick-start/)
+
+* * *
+
+# Conclusion
+
+There are different ways to accomplish the task of running node forever, but my favorite, since I first started using it, is PM2. It allows users to monitor multiple node processes, watch the files for changes, and even run in a clustered mode for load-balancing purposes.

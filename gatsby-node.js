@@ -61,6 +61,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     const slugValue = Boolean(node.frontmatter.slug) ? `/${node.frontmatter.slug}` : generatedSlug;
     const collection = getNode(node.parent).sourceInstanceName;
     const fullSlug = `/${collection}${slugValue}`;
+    console.log({slug: fullSlug, collection})
     createNodeField({
       name: `slug`,
       node,

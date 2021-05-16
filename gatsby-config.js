@@ -28,8 +28,22 @@ module.exports = {
       },
     },
     // MDX
-    `gatsby-plugin-mdx`,
-
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        root: __dirname,
+        gatsbyRemarkPlugins: [
+          `gatsby-remark-embedder`,
+          {
+            resolve: 'gatsby-remark-vscode',
+            options: {
+              theme: `Cobalt2`,
+              extensions: [`theme-cobalt2`],
+            },
+          },
+        ],
+      },
+    },
     // Style Stuff
     `gatsby-plugin-sass`,
     {
