@@ -1,6 +1,7 @@
 import React from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
 import * as styles from './layout.module.scss';
+import Logo from '../logo';
 export default function Layout({ children }) {
   const data = useStaticQuery(
     graphql`
@@ -15,6 +16,7 @@ export default function Layout({ children }) {
   )
   return (
     <div className={styles.Layout}>
+      {/* <Logo /> */}
       <nav className={styles.navigation}>
         <div className={styles.leftNav}>
           <Link to={`/`}>

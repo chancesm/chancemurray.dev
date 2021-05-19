@@ -1,21 +1,19 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../components/layout"
-import ClickableCard from "../components/clickable-card"
+import PreviewCard from "../components/preview-card"
 
 export default function Blog({ data }) {
   console.log({ data })
   return (
     <Layout>
       <h1>Blog</h1>
-      <p>
-        {data.allMdx &&
-          data.allMdx.edges.map(function ({ node: post }) {
-            return (
-              <ClickableCard mdxData={post} />
-            )
-          })}
-      </p>
+      {data.allMdx &&
+        data.allMdx.edges.map(function ({ node: post }) {
+          return (
+            <PreviewCard mdxData={post} />
+          )
+        })}
     </Layout>
   )
 }
